@@ -2,6 +2,7 @@
 import { Observable } from 'rxjs/Observable';
 // import { combineLatest } from 'rxjs/observable/combineLatest';
 import { ActionReducer } from '@ngrx/store';
+import { routerReducer, RouterState } from '@ngrx/router-store';
 import '@ngrx/core/add/operator/select';
 
 /**
@@ -39,6 +40,7 @@ import { combineReducers } from '@ngrx/store';
  */
 import * as fromMultilingual from '../i18n/index';
 import * as fromSample from '../sample/index';
+import * as fromSecurity from '../security/index';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -47,6 +49,8 @@ import * as fromSample from '../sample/index';
 export interface IAppState {
   i18n: fromMultilingual.IMultilingualState;
   sample: fromSample.ISampleState;
+  security: fromSecurity.ISecurityState;
+  router: RouterState;
 }
 
 /**
@@ -58,7 +62,9 @@ export interface IAppState {
  */
 const reducers = {
   i18n: fromMultilingual.reducer,
-  sample: fromSample.reducer
+  sample: fromSample.reducer,
+  security: fromSecurity.reducer,
+  router: routerReducer
 };
 
 // ensure state is frozen as extra level of security when developing
@@ -82,5 +88,10 @@ export function getNameListState(state$: Observable<IAppState>): Observable<from
   return state$.select(s => s.sample);
 }
 
+export function getSecurityState(state$: Observable<IAppState>): Observable<fromSecurity.ISecurityState> {
+  return state$.select(s => s.security);
+}
+
 export const getLang: any = compose(fromMultilingual.getLang, getMultilingualState);
 export const getNames: any = compose(fromSample.getNames, getNameListState);
+export const getAuth: any = compose(fromSecurity.getAuth, getSecurityState);

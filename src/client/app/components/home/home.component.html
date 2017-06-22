@@ -1,3 +1,5 @@
+<sd-toolbar></sd-toolbar>
+<sd-navbar></sd-navbar>
 <h2>
   {{ 'LOVE_TECH' | translate }} <div class="smile"></div>
 </h2>
@@ -17,6 +19,10 @@
 <ul>
   <li *ngFor="let name of (names$ | async)">{{name}}</li>
 </ul>
+
+<p>
+  <a [routerLink]="['/signin']">Sign In</a>
+</p>
 
 <p>
   <a class="link" (click)="readAbout()">About - RouterExtensions example</a>

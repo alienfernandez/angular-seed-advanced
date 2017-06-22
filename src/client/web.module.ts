@@ -1,27 +1,38 @@
 // angular
-import { NgModule } from '@angular/core';
-import { APP_BASE_HREF } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { Http } from '@angular/http';
+import {NgModule} from '@angular/core';
+import {APP_BASE_HREF} from '@angular/common';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
+import {Http} from '@angular/http';
 
 // libs
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader } from '@ngx-translate/core';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {TranslateLoader} from '@ngx-translate/core';
+import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
 
 // app
-import { APP_COMPONENTS, AppComponent } from './app/components/index';
-import { routes } from './app/components/app.routes';
+import {APP_COMPONENTS, AppComponent} from './app/components/index';
+import {routes} from './app/components/app.routes';
 
 // feature modules
-import { WindowService, StorageService, ConsoleService, createConsoleTarget, provideConsoleTarget, LogTarget, LogLevel, ConsoleTarget } from './app/modules/core/services/index';
-import { CoreModule, Config } from './app/modules/core/index';
-import { AnalyticsModule } from './app/modules/analytics/index';
-import { MultilingualModule, Languages, translateLoaderFactory, MultilingualEffects } from './app/modules/i18n/index';
-import { SampleModule, SampleEffects } from './app/modules/sample/index';
-import { AppReducer } from './app/modules/ngrx/index';
+import {
+  WindowService,
+  StorageService,
+  ConsoleService,
+  createConsoleTarget,
+  provideConsoleTarget,
+  LogTarget,
+  LogLevel,
+  ConsoleTarget
+} from './app/modules/core/services/index';
+import {CoreModule, Config} from './app/modules/core/index';
+import {AnalyticsModule} from './app/modules/analytics/index';
+import {MultilingualModule, Languages, translateLoaderFactory, MultilingualEffects} from './app/modules/i18n/index';
+import {SampleModule, SampleEffects} from './app/modules/sample/index';
+import {SecurityModule, AuthEffects} from './app/modules/security/index';
+import {AppReducer} from './app/modules/ngrx/index';
 
 // config
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
@@ -35,7 +46,7 @@ let routerModule = RouterModule.forRoot(routes);
 if (String('<%= TARGET_DESKTOP %>') === 'true') {
   Config.PLATFORM_TARGET = Config.PLATFORMS.DESKTOP;
   // desktop (electron) must use hash
-  routerModule = RouterModule.forRoot(routes, { useHash: true });
+  routerModule = RouterModule.forRoot(routes, {useHash: true});
 }
 
 declare var window, console, localStorage;
@@ -51,7 +62,7 @@ export function cons() {
   return console;
 }
 export function consoleLogTarget(consoleService: ConsoleService) {
-  return new ConsoleTarget(consoleService, { minLogLevel: LogLevel.Debug });
+  return new ConsoleTarget(consoleService, {minLogLevel: LogLevel.Debug});
 }
 
 let DEV_IMPORTS: any[] = [];
@@ -67,10 +78,10 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
   imports: [
     BrowserModule,
     CoreModule.forRoot([
-      { provide: WindowService, useFactory: (win) },
-      { provide: StorageService, useFactory: (storage) },
-      { provide: ConsoleService, useFactory: (cons) },
-      { provide: LogTarget, useFactory: (consoleLogTarget), deps: [ConsoleService], multi: true }
+      {provide: WindowService, useFactory: (win)},
+      {provide: StorageService, useFactory: (storage)},
+      {provide: ConsoleService, useFactory: (cons)},
+      {provide: LogTarget, useFactory: (consoleLogTarget), deps: [ConsoleService], multi: true}
     ]),
     routerModule,
     AnalyticsModule,
@@ -80,10 +91,13 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
       useFactory: (translateLoaderFactory)
     }]),
     SampleModule,
+    SecurityModule,
     // configure app state
     StoreModule.provideStore(AppReducer),
+    RouterStoreModule.connectRouter(),
     EffectsModule.run(MultilingualEffects),
     EffectsModule.run(SampleEffects),
+    EffectsModule.run(AuthEffects),
     // dev environment only imports
     DEV_IMPORTS,
   ],
@@ -104,4 +118,5 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
   bootstrap: [AppComponent]
 })
 
-export class WebModule { }
+export class WebModule {
+}

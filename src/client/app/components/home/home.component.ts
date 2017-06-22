@@ -1,12 +1,13 @@
 // libs
-import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
 
 // app
-import { RouterExtensions, Config } from '../../modules/core/index';
-import { IAppState, getNames } from '../../modules/ngrx/index';
-import { NameList } from '../../modules/sample/index';
+import {RouterExtensions, Config} from '../../modules/core/index';
+import {IAppState, getNames} from '../../modules/ngrx/index';
+import {NameList} from '../../modules/sample/index';
+import {AuthenticationService} from '../../modules/security/index';
 
 @Component({
   moduleId: module.id,
@@ -18,7 +19,9 @@ export class HomeComponent implements OnInit {
   public names$: Observable<any>;
   public newName: string;
 
-  constructor(private store: Store<IAppState>, public routerext: RouterExtensions) {}
+  constructor(private store: Store<IAppState>, public routerext: RouterExtensions,
+              public auth: AuthenticationService) {
+  }
 
   ngOnInit() {
     this.names$ = this.store.let(getNames);
@@ -30,6 +33,7 @@ export class HomeComponent implements OnInit {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addName(): boolean {
+    console.log("sec", this.auth.getCredentials());
     this.store.dispatch(new NameList.AddAction(this.newName));
     this.newName = '';
     return false;
