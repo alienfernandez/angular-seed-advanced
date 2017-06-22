@@ -108,6 +108,13 @@ export class SeedAdvancedConfig extends SeedConfig {
         }
       },
       {
+        name: '@ngrx/router-store',
+        packageMeta: {
+          main: 'bundles/router-store.umd.js',
+          defaultExtension: 'js'
+        }
+      },
+      {
         name: '@ngx-translate/core',
         packageMeta: {
           main: 'bundles/core.umd.js',
