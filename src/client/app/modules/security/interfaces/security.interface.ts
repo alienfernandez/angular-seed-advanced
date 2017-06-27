@@ -46,3 +46,9 @@ export interface IAuthenticationState {
 export interface ISecurityState {
   auth: IAuthenticationState
 }
+
+export interface IAuthService {
+  signIn(credentials: any, uri: string)
+
+  logout()
+}

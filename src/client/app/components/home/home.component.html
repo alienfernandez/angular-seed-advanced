@@ -1,29 +1,11 @@
-<sd-toolbar></sd-toolbar>
-<sd-navbar></sd-navbar>
-<h2>
-  {{ 'LOVE_TECH' | translate }} <div class="smile"></div>
-</h2>
-
-<p>
-  {{'ABOUT_REWARD' | translate}}
-</p>
-<p>
-  {{'ABOUT_ADD' | translate}}
-</p>
-
-<form (submit)="addName()">
-  <input [(ngModel)]="newName" name="newName" [placeholder]="'INPUT_HINT' | translate">
-  <button type="submit">{{'ADD_BTN_TEXT' | translate}}</button>
-</form>
-
-<ul>
-  <li *ngFor="let name of (names$ | async)">{{name}}</li>
-</ul>
-
-<p>
-  <a [routerLink]="['/signin']">Sign In</a>
-</p>
-
-<p>
-  <a class="link" (click)="readAbout()">About - RouterExtensions example</a>
-</p>
+<div class="sidebar" data-color='red' data-image="">
+  <sd-sidebar></sd-sidebar>
+  <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-4.jpg)"></div>
+</div>
+<div class="main-panel">
+  <sd-navbar></sd-navbar>
+  <!--<dashboard-cmp></dashboard-cmp>-->
+  <!--<div *ngIf="isMaps('/maps')">-->
+  <!--<footer-cmp></footer-cmp>-->
+  <!--</div>-->
+</div>

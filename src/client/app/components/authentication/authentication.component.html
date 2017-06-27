@@ -1,68 +1,72 @@
-<div class="container">
-  <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <div class="panel-title">Sign In</div>
-        <div style="float:right; font-size: 80%; position: relative; top:-10px">
-          <a routerLink="/forgot-password">
-            Forgot Password
-          </a>
-        </div>
-      </div>
-
-      <div style="padding-top:30px" class="panel-body">
-        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-        <form id="loginform" class="form-horizontal" name="userForm" novalidate autocomplete="off"
-              #formRef="ngForm" (submit)="signIn(formRef.value)">
-          <div ngModelGroup="credentials">
-
-            <div style="margin-bottom: 25px" class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input id="login-username" type="text" class="form-control" name="identifier" value=""
-                     [(ngModel)]="identifier" required placeholder="Username or email">
-            </div>
-
-            <div style="margin-bottom: 25px" class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-              <input id="login-password" type="password" class="form-control" name="password"
-                     [(ngModel)]="password" placeholder="Password">
-            </div>
-            <div class="input-group">
-              <div class="checkbox">
-                <label>
-                  <input id="login-remember" type="checkbox" name="remember"
-                         [(ngModel)]="remember_me" value="1" checked="checked">
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <div style="margin-top:10px" class="form-group">
-              <!-- Button -->
-              <div class="col-sm-12 controls">
-                <button type="submit" id="btn-login" class="btn btn-success">
-                  <i class="fa fa-sign-in"></i> Sign In
-                </button>
-                <!--<a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>-->
-              </div>
-              <div class="col-sm-12 controls">
-                <button type="button" class="btn btn-info" (click)="test()">
-                  <i class="fa fa-plus"></i> Test
-                </button>
-                <!--<a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>-->
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-md-12 control">
-                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
-                  New Account
-                  <a [routerLink]="['/signup']">Sign Up</a>
+<div class="wrapper wrapper-full-page">
+  <div class="full-page login-page" filter-color="black" data-image="../../assets/img/login.jpeg">
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+            <form id="loginform" class="form-horizontal" name="userForm" novalidate autocomplete="off"
+                  #formRef="ngForm" (submit)="signIn(formRef.value)">
+              <div class="card card-login" ngModelGroup="credentials">
+                <div class="card-header text-center" data-background-color="rose">
+                  <h4 class="card-title">Login</h4>
+                  <div class="social-line">
+                    <a href="#btn" class="btn btn-just-icon btn-simple">
+                      <i class="fa fa-facebook-square"></i>
+                    </a>
+                    <a href="#twt" class="btn btn-just-icon btn-simple">
+                      <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="#google" class="btn btn-just-icon btn-simple">
+                      <i class="fa fa-google-plus"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="card-content">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="material-icons">email</i>
+                    </span>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Username or email</label>
+                      <input type="email" class="form-control" [(ngModel)]="email" required
+                             name="username">
+                      <span class="material-input"></span></div>
+                  </div>
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i class="material-icons">lock_outline</i>
+                      </span>
+                    <div class="form-group label-floating is-empty">
+                      <label class="control-label">Password</label>
+                      <input type="password" class="form-control" [(ngModel)]="password" name="password">
+                      <span class="material-input"></span></div>
+                  </div>
+                  <div class="input-group">
+                    <div class="checkbox">
+                      <label>
+                        <input id="login-remember" type="checkbox" name="remember"
+                               [(ngModel)]="remember_me" value="1" checked="checked">
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="footer text-center">
+                  <button type="submit" class="btn btn-rose btn-simple btn-wd btn-lg">Sign in</button>
+                </div>
+                <div class="footer text-center">
+                  <!--<div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">-->
+                    <!--New Account-->
+                    <!--<a [routerLink]="['/signup']">Sign Up</a>-->
+                  <!--</div>-->
                 </div>
               </div>
-            </div>
-            {{errorMessage}}
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
+
+    <!--<div class="full-page-background" style="background-image: url(../../assets/img/login.jpeg) "></div>-->
   </div>
 </div>

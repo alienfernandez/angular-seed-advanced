@@ -393,7 +393,8 @@ export class SeedConfig {
     '**/*.tns.scss',
     '**/*.tns.css',
     '**/*.tns.html',
-    'src/**/*.js',
+    // '!src/**/assets/js/*.js',
+    // 'src/**/*.js',
     'src/**/*.js.map',
   ];
 

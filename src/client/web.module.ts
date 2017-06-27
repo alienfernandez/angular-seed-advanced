@@ -10,7 +10,7 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {TranslateLoader} from '@ngx-translate/core';
-import { routerReducer, RouterStoreModule } from '@ngrx/router-store';
+import {routerReducer, RouterStoreModule} from '@ngrx/router-store';
 
 // app
 import {APP_COMPONENTS, AppComponent} from './app/components/index';
@@ -21,8 +21,6 @@ import {
   WindowService,
   StorageService,
   ConsoleService,
-  createConsoleTarget,
-  provideConsoleTarget,
   LogTarget,
   LogLevel,
   ConsoleTarget
@@ -32,6 +30,7 @@ import {AnalyticsModule} from './app/modules/analytics/index';
 import {MultilingualModule, Languages, translateLoaderFactory, MultilingualEffects} from './app/modules/i18n/index';
 import {SampleModule, SampleEffects} from './app/modules/sample/index';
 import {SecurityModule, AuthEffects} from './app/modules/security/index';
+import {AdminModule} from './app/modules/admin/index';
 import {AppReducer} from './app/modules/ngrx/index';
 
 // config
@@ -92,6 +91,7 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
     }]),
     SampleModule,
     SecurityModule,
+    AdminModule,
     // configure app state
     StoreModule.provideStore(AppReducer),
     RouterStoreModule.connectRouter(),
