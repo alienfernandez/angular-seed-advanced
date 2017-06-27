@@ -19,12 +19,14 @@ import {IAuthenticationState, ICredentialState} from '../index';
 
 // module
 import {AuthAction} from '../actions/index';
+import {OAuthService} from "./oauth.service";
 
 @Injectable()
 export class AuthenticationService extends Analytics {
   private credentials: ICredentialState;
+  private DEFAULT_AUTH_METHOD = 'oauth';
 
-  constructor(public analytics: AnalyticsService, private http: Http,
+  constructor(public analytics: AnalyticsService, private http: Http, private oauth: OAuthService,
               private coreHttp: HttpService, private store: Store<IAppState>) {
     super(analytics);
     this.category = AuthAction.CATEGORY;
@@ -39,25 +41,6 @@ export class AuthenticationService extends Analytics {
     return this.credentials;
   }
 
-  onIdentity(response: any): Observable<IAuthenticationState> {
-    console.log("response", response);
-    if (!response) return Observable.of(null);
-    let encodedUser: any;
-    let user: any;
-    //Encode user for JWT
-    // if (!_.isUndefined((<any>response).token)) {
-    //   // Set local storage data
-    //   // this.localStorageService.set('JWT', response.token);
-    //   encodedUser = decodeURI(StringUtil.b64ToUtf8(response.token.split('.')[1]));
-    //   user = JSON.parse(encodedUser);
-    // }
-    return Observable.of(<IAuthenticationState>{
-      credentials: user || response,
-      isAdmin: false, //TODO check if the user is a admin member
-      redirectTo: (response.redirect) ? response.redirect : ''
-    });
-
-  }
 
   /**
    * Sign in
@@ -67,12 +50,13 @@ export class AuthenticationService extends Analytics {
    */
   signIn(credentials: any, uri = '/auth/local'): Observable<any> {
     // console.log("credentials", credentials);
-    return this.http.post(Config.ENVIRONMENT().API + '/api/login', {
-      "email": "peter@klaven",
-      "password": "cityslicka"
-    })
-      .map(this.coreHttp.extractData)
-      .switchMap(data => this.onIdentity(data))
-      .catch(this.coreHttp.handleErrorObservable);
+    return this.oauth.signIn(credentials, uri);
+    // return this.http.post(Config.ENVIRONMENT().API + '/api/login', {
+    //   "email": "peter@klaven",
+    //   "password": "cityslicka"
+    // })
+    //   .map(this.coreHttp.extractData)
+    //   .switchMap(data => this.onIdentity(data))
+    //   .catch(this.coreHttp.handleErrorObservable);
   }
 }

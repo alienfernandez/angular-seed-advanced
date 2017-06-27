@@ -1,14 +1,15 @@
 // angular
-import { NgModule, Optional, SkipSelf, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
+import {NgModule, Optional, SkipSelf, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {RouterModule} from '@angular/router';
 
 // app
-import { SharedModule } from '../shared/index';
-import { SECURITY_PROVIDERS } from './services/index';
-import { MultilingualModule } from '../i18n/multilingual.module';
+import {SharedModule} from '../shared/index';
+import {SECURITY_PROVIDERS} from './services/index';
+import {SECURITY_GUARDS} from './guard/index';
+import {MultilingualModule} from '../i18n/multilingual.module';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -20,7 +21,8 @@ import { MultilingualModule } from '../i18n/multilingual.module';
     MultilingualModule,
   ],
   providers: [
-    ...SECURITY_PROVIDERS
+    ...SECURITY_PROVIDERS,
+    ...SECURITY_GUARDS
   ],
   schemas: [
     NO_ERRORS_SCHEMA,

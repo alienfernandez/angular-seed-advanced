@@ -30,7 +30,7 @@ export class AuthEffects {
       console.log("credentials!!", credentials);
       // analytics
       this.authService.track(AuthAction.ActionTypes.LOGIN, {label: credentials});
-
+      localStorage.setItem('token', credentials.credentials);
       return [
         new AuthAction.SetCredentialsAction(credentials),
         go('/')

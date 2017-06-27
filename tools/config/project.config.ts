@@ -1,5 +1,5 @@
-import { join } from 'path';
-import { SeedAdvancedConfig } from './seed-advanced.config';
+import {join} from 'path';
+import {SeedAdvancedConfig} from './seed-advanced.config';
 // import { ExtendPackages } from './seed.config.interfaces';
 
 /**
@@ -31,9 +31,16 @@ export class ProjectConfig extends SeedAdvancedConfig {
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
+      {src: `${this.APP_SRC}/assets/js/arrive.min.js`, inject: true},
+      {src: `${this.APP_SRC}/assets/js/material.min.js`, inject: true},
+      {src: `${this.APP_SRC}/assets/js/chartist.min.js`, inject: true},
+      {src: `${this.APP_SRC}/assets/js/bootstrap-notify.js`, inject: true},
+      {src: `${this.APP_SRC}/assets/js/material-dashboard.js`, inject: true},
+      {src: `${this.APP_SRC}/assets/js/demo.js`, inject: true},
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
+      {src: `${this.APP_SRC}/assets/css/material-dashboard.css`, inject: true},
+      {src: `${this.APP_SRC}/assets/css/demo.css`, inject: true},
     ];
-
     this.ROLLUP_INCLUDE_DIR = [
       ...this.ROLLUP_INCLUDE_DIR,
       //'node_modules/moment/**'

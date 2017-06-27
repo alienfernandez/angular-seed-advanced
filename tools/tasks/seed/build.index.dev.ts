@@ -29,6 +29,7 @@ export = () => {
  * @param {string} name - The file to be injected.
  */
 function inject(name?: string) {
+  console.log("getInjectablesDependenciesRef", getInjectablesDependenciesRef());
   return plugins.inject(gulp.src(getInjectablesDependenciesRef(name), { read: false }), {
     name,
     transform: transformPath()
