@@ -142,6 +142,10 @@ export class SeedAdvancedConfig extends SeedConfig {
       {
         name: 'deep-freeze-strict',
         path: 'node_modules/deep-freeze-strict/index.js'
+      },
+      {
+        name: 'angular-2-local-storage',
+        path: 'node_modules/angular-2-local-storage/dist/index.js'
       }
     ];
 

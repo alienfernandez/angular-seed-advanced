@@ -26,12 +26,20 @@ export interface ILoginFailed {
   code?: string
 }
 
+export interface OAuth2Token {
+  access_token: string,
+  refresh_token?: string,
+  expires_in?: number,
+  scope?: string,
+  token_type?: string
+}
+
 /**
  * Interface for authentication state
  */
 export interface IAuthenticationState {
   credentials: ICredentialState,
-  token?: string,
+  token?: string|OAuth2Token,
   isLoggedIn?: boolean,
   isAdmin?: boolean,
   redirectTo?: string,
@@ -51,4 +59,11 @@ export interface IAuthService {
   signIn(credentials: any, uri: string)
 
   logout()
+}
+
+export interface IAuthenticationProvider {
+  authenticate(credentials: any)
+
+  getCredentials()
+
 }

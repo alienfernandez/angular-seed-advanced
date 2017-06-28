@@ -1,39 +1,43 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Rx";
 import {Http, XHRBackend, RequestOptions, Request, RequestOptionsArgs, Response, Headers} from '@angular/http';
-
-// import appConfig from '../config/default.config';
+import {LocalStorageService} from "angular-2-local-storage";
+import {OAuth2Token} from "../../security/index";
+import {Config} from '../../core/index';
 
 @Injectable()
 export class HttpService extends Http {
   //url base according to the config app
-  public urlBase: string;
-  public urlExternal: string;
+  public baseAPI: string;
 
   /**
    *
    * @param backend
    * @param options
+   * @param localStorage
    */
-  constructor(backend: XHRBackend, options: RequestOptions) {
-    let token = localStorage.getItem('auth_token'); // your custom token getter function here
-    options.headers.set('Authorization', `Bearer ${token}`);
-    //   // this.urlBase = appConfig.server + ":" + appConfig.port;
-    //   // this.urlExternal = appConfig.externals.server1;
+  constructor(backend: XHRBackend, options: RequestOptions, private localStorage: LocalStorageService) {
     super(backend, options);
+    let token = <OAuth2Token>(this.localStorage.get('auth_token')); // your custom token getter function here
+    if (token !== null) {
+      options.headers.set('Authorization', `Bearer ${token.access_token}`);
+    }
+    // this.baseAPI = Config.ENVIRONMENT().API;
   }
 
   request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-    let token = localStorage.getItem('auth_token');
-    if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
-      if (!options) {
-        // let's make option object
-        options = {headers: new Headers()};
+    let token = <OAuth2Token>(this.localStorage.get('auth_token'));
+    if (token !== null) {
+      if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
+        if (!options) {
+          // let's make option object
+          options = {headers: new Headers()};
+        }
+        options.headers.set('Authorization', `Bearer ${token.access_token}`);
+      } else {
+        // we have to add the token to the url object
+        url.headers.set('Authorization', `Bearer ${token.access_token}`);
       }
-      options.headers.set('Authorization', `Bearer ${token}`);
-    } else {
-      // we have to add the token to the url object
-      url.headers.set('Authorization', `Bearer ${token}`);
     }
     return super.request(url, options).catch(this.catchAuthError(this));
   }

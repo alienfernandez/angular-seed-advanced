@@ -16,16 +16,18 @@ import {HttpService} from "../../core/services/http.service";
 import {IAuthenticationState, ICredentialState} from '../index';
 
 // module
-import {IAuthService} from "../interfaces/security.interface";
+import {IAuthenticationProvider} from "../interfaces/security.interface";
+import {AuthenticationProvider} from "./authentication-provider";
 
 @Injectable()
-export class OAuthService implements IAuthService {
+export class OAuthAuthProvider extends AuthenticationProvider implements IAuthenticationProvider {
 
   private OauthLoginEndPointUrl = Config.ENVIRONMENT().API + '/o/token/';  // Oauth Login EndPointUrl to web API
   private clientId = 'ENLN9cCzyeBb98UFLN5ou6Ouafi6DzkPKgBjmaSl';
   private clientSecret = '7akGq6GSnmdDmFM5TFAGcUuw1a6nZZGOEI9fi1DvRFHKLdK45CRqXaWT5JBdQ8cyxdnqm5F66bVD6SsHsdEfUkHSidHEuSUK9yPvK78VyXkqYF7nUJfU5YfL1qUhw6gw';
 
-  constructor(private http: Http, private coreHttp: HttpService, private store: Store<IAppState>) {
+  constructor(protected http: Http, protected coreHttp: HttpService, protected store: Store<IAppState>) {
+    super(http, coreHttp, store);
   }
 
 
@@ -40,7 +42,12 @@ export class OAuthService implements IAuthService {
 
   }
 
-  getToken(credentials: any): Observable<any> {
+  /**
+   * Get auth token
+   * @param credentials
+   * @returns {Observable<R>}
+   */
+  getAuthToken(credentials: any): Observable<any> {
     let headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa(this.clientId + ':' + this.clientSecret));
     // headers.append('Content-Type', 'multipart/form-data');
@@ -60,17 +67,16 @@ export class OAuthService implements IAuthService {
   }
 
   /**
-   * Sign in
+   * Authenticate
    * @param credentials
-   * @param uri
    * @returns {Promise}
    */
-  signIn(credentials: any, uri = '/auth/local'): Observable<any> {
+  authenticate(credentials: any): Observable<any> {
     // console.log("credentials", credentials);
-    return this.getToken(credentials);
+    return this.getAuthToken(credentials);
   }
 
   logout() {
-    localStorage.removeItem('token');
+    // localStorage.removeItem('auth_token');
   }
 }

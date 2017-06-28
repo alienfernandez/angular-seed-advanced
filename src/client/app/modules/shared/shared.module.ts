@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 // modules
 import { MultilingualModule } from '../i18n/index';
@@ -25,7 +26,11 @@ const SHARED_MODULES: any[] = [
 
 @NgModule({
   imports: [
-    ...SHARED_MODULES
+    ...SHARED_MODULES,
+    LocalStorageModule.withConfig({
+      prefix: 'api',
+      storageType: 'localStorage'
+    })
   ],
   declarations: [
     ...SHARED_COMPONENTS

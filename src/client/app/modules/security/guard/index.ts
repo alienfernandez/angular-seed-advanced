@@ -1,7 +1,7 @@
-import {CanActivateOAuthGuard} from './oauth.can_activate_guard';
+import {CanActivateOAuthGuard} from './oauth.guard';
 
 export const SECURITY_GUARDS: any[] = [
   CanActivateOAuthGuard
 ];
 
-export * from './oauth.can_activate_guard';
+export * from './oauth.guard';
