@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {RouterExtensions, Config} from '../../modules/core/index';
 import {IAppState, getNames} from '../../modules/ngrx/index';
 import {NameList} from '../../modules/sample/index';
-import {AuthenticationService} from '../../modules/security/index';
+import {AuthProviderManager} from '../../modules/security/index';
 
 @Component({
   moduleId: module.id,
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   public newName: string;
 
   constructor(private store: Store<IAppState>, public routerext: RouterExtensions,
-              public auth: AuthenticationService) {
+              public auth: AuthProviderManager) {
   }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addName(): boolean {
-    console.log("sec", this.auth.getCredentials());
+    console.log("sec", this.auth.getAuthProvider().getCredentials());
     this.store.dispatch(new NameList.AddAction(this.newName));
     this.newName = '';
     return false;

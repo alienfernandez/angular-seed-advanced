@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 // app
 import {RouterExtensions, Config} from '../../modules/core/index';
 import {IAppState} from '../../modules/ngrx/index';
-import {AuthAction, AuthenticationService} from '../../modules/security/index';
+import {AuthAction, AuthProviderManager} from '../../modules/security/index';
 
 @Component({
   moduleId: module.id,
@@ -32,7 +32,7 @@ export class AuthenticationComponent {
   }
 
   constructor(private injector: Injector, private store: Store<IAppState>, public routerExt: RouterExtensions,
-              public auth: AuthenticationService) {
+              public auth: AuthProviderManager) {
     // This is here as an example
     // if (this.page) {
     //   this.page.actionBarHidden = true;
@@ -49,6 +49,6 @@ export class AuthenticationComponent {
   }
 
   test() {
-    console.log("RRRRRRR", this.auth.getCredentials());
+    console.log("RRRRRRR", this.auth.getAuthProvider());
   }
 }

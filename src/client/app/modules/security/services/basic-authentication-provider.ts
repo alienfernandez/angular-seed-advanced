@@ -19,17 +19,14 @@ import {IAuthenticationState, ICredentialState} from '../index';
 
 // module
 import {AuthAction} from '../actions/index';
-import {OAuthService} from "./oauth.service";
+import {IAuthenticationProvider} from "../interfaces/security.interface";
+import {AuthenticationProvider} from "./authentication-provider";
 
 @Injectable()
-export class AuthenticationService extends Analytics {
-  private credentials: ICredentialState;
-  private DEFAULT_AUTH_METHOD = 'oauth';
+export class BasicAuthProvider extends AuthenticationProvider implements IAuthenticationProvider {
 
-  constructor(public analytics: AnalyticsService, private http: Http, private oauth: OAuthService,
-              private coreHttp: HttpService, private store: Store<IAppState>) {
-    super(analytics);
-    this.category = AuthAction.CATEGORY;
+  constructor(protected http: Http, protected coreHttp: HttpService, protected store: Store<IAppState>) {
+    super(http, coreHttp, store);
   }
 
   /**
@@ -48,15 +45,13 @@ export class AuthenticationService extends Analytics {
    * @param uri
    * @returns {Promise}
    */
-  signIn(credentials: any, uri = '/auth/local'): Observable<any> {
-    // console.log("credentials", credentials);
-    return this.oauth.signIn(credentials, uri);
-    // return this.http.post(Config.ENVIRONMENT().API + '/api/login', {
-    //   "email": "peter@klaven",
-    //   "password": "cityslicka"
-    // })
-    //   .map(this.coreHttp.extractData)
-    //   .switchMap(data => this.onIdentity(data))
-    //   .catch(this.coreHttp.handleErrorObservable);
+  authenticate(credentials: any): Observable<any> {
+    return this.http.post(Config.ENVIRONMENT().API + '/api/login', {
+      "email": "peter@klaven",
+      "password": "cityslicka"
+    })
+      .map(this.coreHttp.extractData)
+      // .switchMap(data => this.onIdentity(data))
+      .catch(this.coreHttp.handleErrorObservable);
   }
 }
