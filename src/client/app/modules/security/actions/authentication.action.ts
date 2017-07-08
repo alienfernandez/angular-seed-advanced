@@ -72,6 +72,6 @@ export namespace AuthAction {
   export type Actions = SetCredentialsAction
     | InitLoginAction
     | LoginAction
-    | LoginFailedAction
+    | LoginFailedAction;
 
 }

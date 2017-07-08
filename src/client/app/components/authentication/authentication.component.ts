@@ -21,6 +21,8 @@ export class AuthenticationComponent {
   // Just one way you could handle the {N} `ui/page` Page class
   // in a shared component...
   private _page: any;
+  private authState: Observable<any>;
+
   private get page() {
     if (Config.PageClass) {
       if (!this._page) {

@@ -29,7 +29,7 @@ const SHARED_MODULES: any[] = [
     ...SHARED_MODULES,
     LocalStorageModule.withConfig({
       prefix: 'api',
-      storageType: 'localStorage'
+      storageType: 'sessionStorage'
     })
   ],
   declarations: [

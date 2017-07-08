@@ -16,34 +16,32 @@ import {AuthAction} from '../actions/authentication.action';
 export class AuthEffects {
 
   constructor(private store: Store<any>, private actions$: Actions,
-              private authService: AuthProviderManager, private localStorageService: LocalStorageService) {
+              private authService: AuthProviderManager, private sessionStorage: LocalStorageService) {
   }
 
 
   @Effect() signIn$: Observable<Action> = this.actions$
     .ofType(AuthAction.ActionTypes.LOGIN)
-    .switchMap((action) => {
-      let data = action.payload;
-      return this.authService.authenticate(data.credentials);
+    .switchMap((action: any) => {
+      // This is the disposable stream!
+      // Errors can safely occur in here without killing the original stream
+      return this.authService.authenticate(action.payload.credentials)
+        .catch(error => Observable.of(new AuthAction.LoginFailedAction('Login Failed: ' + error)));
     })
-    .mergeMap(credentials => {
-      console.log("credentials!!", credentials);
-      // analytics
-      // this.authService.track(AuthAction.ActionTypes.LOGIN, {label: credentials});
-      this.localStorageService.set('auth_token', credentials.credentials);
-      return [
-        new AuthAction.SetCredentialsAction(credentials),
-        go('/')
-      ];
-    })
-    //Redirect to Home
-    // .map((data) => go('/'))
-    // nothing reacting to failure at moment but you could if you want (here for example)
-    .catch((error) => {
-      console.log("ERROR LOGIN", error);
-      // analytics
-      // this.authService.track(AuthAction.ActionTypes.LOGIN_FAILED, {label: error});
-      return Observable.of(new AuthAction.LoginFailedAction("Login Failed: " + error));
+    .mergeMap((credentials: any) => {
+      //Check if there are problems with the login
+      if (credentials && credentials.type === '[AuthAction] Login Failed') {
+        return [credentials];
+      } else {
+        // analytics
+        // this.authService.track(AuthAction.ActionTypes.LOGIN, {label: credentials});
+        this.sessionStorage.set('auth_token', credentials.credentials);
+        return [
+          new AuthAction.SetCredentialsAction(credentials),
+          go('/')
+        ];
+      }
+
     });
 
 }

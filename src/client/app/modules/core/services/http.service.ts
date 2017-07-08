@@ -16,17 +16,17 @@ export class HttpService extends Http {
    * @param options
    * @param localStorage
    */
-  constructor(backend: XHRBackend, options: RequestOptions, private localStorage: LocalStorageService) {
+  constructor(backend: XHRBackend, options: RequestOptions, private sessionStorage: LocalStorageService) {
     super(backend, options);
-    let token = <OAuth2Token>(this.localStorage.get('auth_token')); // your custom token getter function here
+    let token = <OAuth2Token>(this.sessionStorage.get('auth_token')); // your custom token getter function here
     if (token !== null) {
       options.headers.set('Authorization', `Bearer ${token.access_token}`);
     }
     // this.baseAPI = Config.ENVIRONMENT().API;
   }
 
-  request(url: string|Request, options?: RequestOptionsArgs): Observable<Response> {
-    let token = <OAuth2Token>(this.localStorage.get('auth_token'));
+  request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    let token = <OAuth2Token>(this.sessionStorage.get('auth_token'));
     if (token !== null) {
       if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
         if (!options) {
@@ -42,19 +42,6 @@ export class HttpService extends Http {
     return super.request(url, options).catch(this.catchAuthError(this));
   }
 
-  private catchAuthError(self: HttpService) {
-    // we have to pass HttpService's own instance here as `self`
-    return (res: Response) => {
-      console.log(res);
-      if (res.status === 401 || res.status === 403) {
-        // if not authenticated
-        console.log(res);
-      }
-      return Observable.throw(res);
-    };
-  }
-
-
   public extractData(res: Response) {
     let body = res.json();
     return body || {};
@@ -65,7 +52,7 @@ export class HttpService extends Http {
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
+    // console.error(errMsg); // log to console instead
     return Observable.throw(errMsg);
   }
 
@@ -74,7 +61,19 @@ export class HttpService extends Http {
     // We'd also dig deeper into the error to get a better message
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
+    // console.error(errMsg); // log to console instead
     return Promise.reject(errMsg);
+  }
+
+  private catchAuthError(self: HttpService) {
+    // we have to pass HttpService's own instance here as `self`
+    return (res: Response) => {
+      console.log(res);
+      if (res.status === 401 || res.status === 403) {
+        // if not authenticated
+        console.log(res);
+      }
+      return Observable.throw(res);
+    };
   }
 }
