@@ -456,6 +456,9 @@ export class SeedConfig {
       '*': 'node_modules/*'
     },
     packages: {
+      'ag-grid': {
+        main: 'main.js'
+      }
     }
   };
 

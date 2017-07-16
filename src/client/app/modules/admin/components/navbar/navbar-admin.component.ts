@@ -33,6 +33,6 @@ export class NavbarAdminComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log('hello `topnavbar` component');
+    // console.log('hello `topnavbar` component');
   }
 }

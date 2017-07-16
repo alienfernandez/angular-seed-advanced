@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {SharedModule} from '../shared/index';
+// ag-grid
+import {AgGridModule} from 'ag-grid-angular/main';
 
 // modules
 import {MODULE_COMPONENTS} from './components/index';
@@ -20,7 +22,10 @@ const ADMIN_MODULES: any[] = [];
   imports: [
     ...ADMIN_MODULES,
     SharedModule,
-    RouterModule.forChild(MODULE_ROUTES)
+    RouterModule.forChild(MODULE_ROUTES),
+    AgGridModule.withComponents(
+      [...MODULE_COMPONENTS]
+    )
   ],
   declarations: [
     ...MODULE_COMPONENTS

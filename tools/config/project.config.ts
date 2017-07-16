@@ -26,15 +26,17 @@ export class ProjectConfig extends SeedAdvancedConfig {
       {src: 'bootstrap/dist/js/bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'font-awesome/css/font-awesome.min.css', inject: true}, // inject into css section
+      {src: 'ag-grid/dist/styles/ag-grid.css', inject: true}, // inject into css section
+      {src: 'ag-grid/dist/styles/theme-bootstrap.css', inject: true}, // inject into css section
+      {src: 'ag-grid/dist/styles/theme-fresh.css', inject: true}, // inject into css section
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       {src: `${this.APP_SRC}/assets/js/custom.gentelella.js`, inject: true},
-      // {src: `${this.APP_SRC}/assets/js/demo.js`, inject: true},
-      {src: `${this.APP_SRC}/assets/css/custom.gentelella.css`, inject: true},
-      {src: `${this.APP_SRC}/assets/css/app.style.css`, inject: true},
+      // {src: `${this.APP_SRC}/assets/css/custom.gentelella.css`, inject: true},
+      // {src: `${this.APP_SRC}/assets/css/app.style.css`, inject: true},
     ];
     this.ROLLUP_INCLUDE_DIR = [
       ...this.ROLLUP_INCLUDE_DIR,
