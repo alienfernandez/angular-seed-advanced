@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit {
 
   // TypeScript public modifiers
   private $BODY;
+  private $layout;
   private $MENU_TOGGLE;
   private $SIDEBAR_MENU;
   private $SIDEBAR_FOOTER;
@@ -54,9 +55,10 @@ export class SidebarComponent implements OnInit {
   }
 
   plot() {
-    console.log('in sidebar');
+    // console.log('in sidebar');
 
     this.$BODY = $('body');
+    this.$layout = $('div[data-role="layout"]');
     this.$MENU_TOGGLE = $('#menu_toggle');
     this.$SIDEBAR_MENU = $('#sidebar-menu');
     this.$SIDEBAR_FOOTER = $('.sidebar-footer');
@@ -91,7 +93,7 @@ export class SidebarComponent implements OnInit {
 
     // toggle small or large menu
     this.$MENU_TOGGLE.on('click', function () {
-      if (this.$BODY.hasClass('nav-md')) {
+      if (this.$layout.hasClass('nav-md')) {
         this.$SIDEBAR_MENU.find('li.active ul').hide();
         this.$SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
       } else {
@@ -99,7 +101,7 @@ export class SidebarComponent implements OnInit {
         this.$SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
       }
 
-      this.$BODY.toggleClass('nav-md nav-sm');
+      this.$layout.toggleClass('nav-md nav-sm');
 
       this.setContentHeight();
     });
@@ -107,7 +109,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('hello `sidebar` component');
+    // console.log('hello `sidebar` component');
   }
 
   setContentHeight() {
