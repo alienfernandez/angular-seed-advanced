@@ -13,7 +13,7 @@ import {AuthAction, AuthProviderManager} from '../../modules/security/index';
   selector: 'sd-auth',
   templateUrl: 'authentication.component.html',
   styleUrls: [
-    'authentication.component.css',
+    // 'authentication.component.css',
   ],
 })
 export class AuthenticationComponent {

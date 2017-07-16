@@ -9,7 +9,7 @@ declare var $: any;
   moduleId: module.id,
   selector: 'sd-home-admin',
   templateUrl: 'home.component.html',
-  styleUrls: ['home.component.css']
+  // styleUrls: ['home.component.css']
 })
 export class HomeAdminComponent implements OnInit {
 

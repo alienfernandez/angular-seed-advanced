@@ -48,7 +48,7 @@ if (String('<%= TARGET_DESKTOP %>') === 'true') {
   routerModule = RouterModule.forRoot(routes, {useHash: true});
 }
 
-declare var window, console, localStorage;
+  declare var window, console, localStorage;
 
 // For AoT compilation to work:
 export function win() {

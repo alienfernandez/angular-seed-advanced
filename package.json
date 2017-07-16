@@ -199,7 +199,7 @@
     "reflect-metadata": "^0.1.8",
     "rxjs": "~5.2.0",
     "systemjs": "0.19.41",
-    "zone.js": "^0.8.7"
+    "zone.js": "0.8.12"
   },
   "main": "index.js"
 }
