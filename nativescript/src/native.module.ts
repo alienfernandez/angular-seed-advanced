@@ -11,6 +11,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/cor
 // libs
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import {routerReducer, RouterStoreModule} from '@ngrx/router-store';
 
 // app
 import {
@@ -28,6 +29,8 @@ import { CoreModule } from './app/modules/core/core.module';
 import { AppReducer } from './app/modules/ngrx/index';
 import { MultilingualEffects } from './app/modules/i18n/index';
 import { SampleEffects } from './app/modules/sample/index';
+import {SecurityModule, AuthEffects} from './app/modules/security/index';
+// import {AdminModule} from './app/modules/admin/index';
 import { ComponentsModule, cons, consoleLogTarget } from './components.module';
 
 // {N} custom app specific
@@ -72,9 +75,12 @@ export function segmentViewHelper(languages) {
       { provide: LogTarget, multi: true, deps: [ConsoleService], useFactory: (consoleLogTarget) }
     ]),
     ComponentsModule,
+    SecurityModule,
     NativeScriptRouterModule.forRoot(<any>routes),
     StoreModule.provideStore(AppReducer),
+    RouterStoreModule.connectRouter(),
     EffectsModule.run(MultilingualEffects),
+    EffectsModule.run(AuthEffects),
     EffectsModule.run(SampleEffects)
   ],
   providers: [
