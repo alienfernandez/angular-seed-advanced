@@ -1,9 +1,11 @@
 // libs
 import {Component, OnInit} from '@angular/core';
-import {SecurityService} from "../../../security/services/security.service";
-// import {Store} from '@ngrx/store';
-// import {Observable} from 'rxjs/Observable';
-import {GridOptions} from "ag-grid/main";
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {GridOptions} from 'ag-grid/main';
+
+import {IAppState, getUsers} from '../../../ngrx/index';
+import {UserAction} from "../../actions/index";
 
 declare var $: any;
 @Component({
@@ -17,51 +19,41 @@ export class UserAdminComponent implements OnInit {
   public rowData: any[];
   public columnDefs: any[];
 
-  constructor() {
+  private users$: Observable<any>;
+
+  constructor(private store: Store<IAppState>) {
+    this.users$ = this.store.let(getUsers);
     // we pass an empty gridOptions in, so we can grab the api out
-    this.gridOptions = {
+    this.gridOptions = <GridOptions> {
+      columnDefs: this.columnDefs,
       rowHeight: 35, // recommended row height for material design data grids,
       onGridReady: () => {
+        // this.gridOptions.api.sizeColumnsToFit();
+        this.users$.subscribe(
+          rowData => {
+            console.log("rowData", rowData);
+            // the initial full set of data
+            // note that we don't need to un-subscribe here as it's a one off data load
+            if (this.gridOptions.api) { // can be null when tabbing between the examples
+              this.gridOptions.api.setRowData(rowData);
+            }
+          }
+        );
         this.gridOptions.api.sizeColumnsToFit();
+
       }
     };
+
     this.columnDefs = [
-      {headerName: 'Make', field: 'make'},
-      {headerName: 'Model', field: 'model'},
-      {headerName: 'Price', field: 'price'}
-    ];
-    this.rowData = [
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
-      {make: 'Toyota', model: 'Celica', price: 35000},
-      {make: 'Ford', model: 'Mondeo', price: 32000},
-      {make: 'Porsche', model: 'Boxter', price: 72000},
+      {headerName: 'Username', field: 'username'},
+      {headerName: 'Email Adress', field: 'email'},
+      {headerName: 'First Name', field: 'first_name'},
+      {headerName: 'Last Name', field: 'last_name'},
+      {headerName: 'Active', field: 'active'},
     ];
   }
 
   ngOnInit() {
-
+    this.store.dispatch(new UserAction.GetUsersAction(null));
   }
 }

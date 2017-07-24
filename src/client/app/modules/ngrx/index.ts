@@ -41,6 +41,8 @@ import { combineReducers } from '@ngrx/store';
 import * as fromMultilingual from '../i18n/index';
 import * as fromSample from '../sample/index';
 import * as fromSecurity from '../security/index';
+import * as fromAdmin from '../admin/index';
+
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -50,6 +52,7 @@ export interface IAppState {
   i18n: fromMultilingual.IMultilingualState;
   sample: fromSample.ISampleState;
   security: fromSecurity.ISecurityState;
+  admin: fromAdmin.IAdminState;
   router: RouterState;
 }
 
@@ -64,12 +67,14 @@ const reducers = {
   i18n: fromMultilingual.reducer,
   sample: fromSample.reducer,
   security: fromSecurity.reducer,
+  admin: fromAdmin.reducer,
   router: routerReducer
 };
 
 // ensure state is frozen as extra level of security when developing
 // helps maintain immutability
-const developmentReducer: ActionReducer<IAppState> = compose(storeFreeze, combineReducers)(reducers);
+// const developmentReducer: ActionReducer<IAppState> = compose(storeFreeze, combineReducers)(reducers);
+const developmentReducer: ActionReducer<IAppState> = combineReducers(reducers);
 // for production, dev has already been cleared so no need
 const productionReducer: ActionReducer<IAppState> = combineReducers(reducers);
 
@@ -92,6 +97,11 @@ export function getSecurityState(state$: Observable<IAppState>): Observable<from
   return state$.select(s => s.security);
 }
 
+export function getAdminState(state$: Observable<IAppState>): Observable<fromAdmin.IAdminState> {
+  return state$.select(s => s.admin);
+}
+
 export const getLang: any = compose(fromMultilingual.getLang, getMultilingualState);
 export const getNames: any = compose(fromSample.getNames, getNameListState);
 export const getAuth: any = compose(fromSecurity.getAuth, getSecurityState);
+export const getUsers: any = compose(fromAdmin.getUsers, getAdminState);

@@ -16,7 +16,7 @@ export class HttpService extends Http {
    * @param options
    * @param localStorage
    */
-  constructor(backend: XHRBackend, options: RequestOptions, private sessionStorage: LocalStorageService) {
+  constructor(backend: XHRBackend, options: RequestOptions, public sessionStorage: LocalStorageService) {
     super(backend, options);
     let token = <OAuth2Token>(this.sessionStorage.get('auth_token')); // your custom token getter function here
     if (token !== null) {

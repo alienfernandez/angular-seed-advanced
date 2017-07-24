@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
+import {EffectsModule} from '@ngrx/effects';
 
 import {SharedModule} from '../shared/index';
 // ag-grid
@@ -8,6 +9,8 @@ import {AgGridModule} from 'ag-grid-angular/main';
 // modules
 import {MODULE_COMPONENTS} from './components/index';
 import {MODULE_ROUTES} from './admin.routes';
+import {UserEffects} from './effects/index';
+import {ADMIN_PROVIDERS} from "./index";
 
 const ADMIN_MODULES: any[] = [];
 
@@ -25,10 +28,14 @@ const ADMIN_MODULES: any[] = [];
     RouterModule.forChild(MODULE_ROUTES),
     AgGridModule.withComponents(
       [...MODULE_COMPONENTS]
-    )
+    ),
+    EffectsModule.run(UserEffects),
   ],
   declarations: [
     ...MODULE_COMPONENTS
+  ],
+  providers:[
+    ...ADMIN_PROVIDERS
   ],
   exports: [
     ...ADMIN_MODULES,

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LocalStorageModule } from 'angular-2-local-storage';
+import { HttpModule} from '@angular/http';
 
 // modules
 import { MultilingualModule } from '../i18n/index';
@@ -35,6 +35,7 @@ const SHARED_MODULES: any[] = [
   declarations: [
     ...SHARED_COMPONENTS
   ],
+
   exports: [
     ...SHARED_MODULES,
     ...SHARED_COMPONENTS,

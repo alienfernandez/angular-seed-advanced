@@ -146,6 +146,10 @@ export class SeedAdvancedConfig extends SeedConfig {
       {
         name: 'angular-2-local-storage',
         path: 'node_modules/angular-2-local-storage/dist/index.js'
+      },
+      {
+        name: 'ngx-resource',
+        path: 'node_modules/ngx-resource/bundles/index.js'
       }
     ];
 
